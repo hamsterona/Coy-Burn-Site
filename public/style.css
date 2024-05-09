@@ -38,5 +38,5 @@
         font-family: "OrkneyRegular";
         font-size: 1.875em;
       }
-      
       a.link:hover {background:#52abff}
+      hr {width:50%;height:1.5px;border-width:0;color:rgb(0, 0, 0);background-color:rgb(0, 0, 0)}
