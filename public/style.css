@@ -1,0 +1,42 @@
+
+
+   body {
+    background-color: #f0d7eb;
+    color: black;
+    font-family: Verdana; }
+      @font-face {
+        font-family: "NyghtSerif";
+        src: url("fonts/NyghtSerif-Regular.woff2") format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "OrkneyRegular";
+        src: url("fonts/Orkney Regular.woff2") format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Jersey";
+        src: url(https://fonts.googleapis.com/css2?family=Jersey+15&display=swap);
+      }
+      h1 {
+        text-align: center;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .ascii-art {
+        white-space: pre;
+        max-width: 100vw; /* Set a maximum width relative to the viewport width */
+        word-wrap: break-word;
+        overflow: hidden;
+        margin: 0 auto;  /* Center the ASCII art */
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.6vw;
+      }
+      .about {
+        text-align: center;
+        font-family: "OrkneyRegular";
+        font-size: 1.875em;
+      }
+      
+      a.link:hover {background:#52abff}

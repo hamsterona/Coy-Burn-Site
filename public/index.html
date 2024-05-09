@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COY BURN</title>
+  <script type="text/javascript">
+<!-- SPARKLES CODE -->// <![CDATA[
+  var colour="random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+  var sparkles=80;
+
+  /****************************
+  *  Tinkerbell Magic Sparkle *
+  *(c)2005-13 mf2fm web-design*
+  *  http://www.mf2fm.com/rv  *
+  * DON'T EDIT BELOW THIS BOX *
+  ****************************/
+  var x=ox=400;
+  var y=oy=300;
+  var swide=800;
+  var shigh=600;
+  var sleft=sdown=0;
+  var tiny=new Array();
+  var star=new Array();
+  var starv=new Array();
+  var starx=new Array();
+  var stary=new Array();
+  var tinyx=new Array();
+  var tinyy=new Array();
+  var tinyv=new Array();
+
+  window.onload=function() { if (document.getElementById) {
+    var i, rats, rlef, rdow;
+    for (var i=0; i<sparkles; i++) {
+      var rats=createDiv(3, 3);
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      document.body.appendChild(tiny[i]=rats);
+      starv[i]=0;
+      tinyv[i]=0;
+      var rats=createDiv(5, 5);
+      rats.style.backgroundColor="transparent";
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      var rlef=createDiv(1, 5);
+      var rdow=createDiv(5, 1);
+      rats.appendChild(rlef);
+      rats.appendChild(rdow);
+      rlef.style.top="2px";
+      rlef.style.left="0px";
+      rdow.style.top="0px";
+      rdow.style.left="2px";
+      document.body.appendChild(star[i]=rats);
+    }
+    set_width();
+    sparkle();
+  }}
+
+  function sparkle() {
+    var c;
+    if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+      ox=x;
+      oy=y;
+      for (c=0; c<sparkles; c++) if (!starv[c]) {
+        star[c].style.left=(starx[c]=x)+"px";
+        star[c].style.top=(stary[c]=y+1)+"px";
+        star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+        star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+        star[c].style.visibility="visible";
+        starv[c]=50;
+        break;
+      }
+    }
+    for (c=0; c<sparkles; c++) {
+      if (starv[c]) update_star(c);
+      if (tinyv[c]) update_tiny(c);
+    }
+    setTimeout("sparkle()", 40);
+  }
+
+  function update_star(i) {
+    if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+    if (starv[i]) {
+      stary[i]+=1+Math.random()*3;
+      starx[i]+=(i%5-2)/5;
+      if (stary[i]<shigh+sdown) {
+        star[i].style.top=stary[i]+"px";
+        star[i].style.left=starx[i]+"px";
+      }
+      else {
+        star[i].style.visibility="hidden";
+        starv[i]=0;
+        return;
+      }
+    }
+    else {
+      tinyv[i]=50;
+      tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+      tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+      tiny[i].style.width="2px";
+      tiny[i].style.height="2px";
+      tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+      star[i].style.visibility="hidden";
+      tiny[i].style.visibility="visible"
+    }
+  }
+
+  function update_tiny(i) {
+    if (--tinyv[i]==25) {
+      tiny[i].style.width="1px";
+      tiny[i].style.height="1px";
+    }
+    if (tinyv[i]) {
+      tinyy[i]+=1+Math.random()*3;
+      tinyx[i]+=(i%5-2)/5;
+      if (tinyy[i]<shigh+sdown) {
+        tiny[i].style.top=tinyy[i]+"px";
+        tiny[i].style.left=tinyx[i]+"px";
+      }
+      else {
+        tiny[i].style.visibility="hidden";
+        tinyv[i]=0;
+        return;
+      }
+    }
+    else tiny[i].style.visibility="hidden";
+  }
+
+  document.onmousemove=mouse;
+  function mouse(e) {
+    if (e) {
+      y=e.pageY;
+      x=e.pageX;
+    }
+    else {
+      set_scroll();
+      y=event.y+sdown;
+      x=event.x+sleft;
+    }
+  }
+
+  window.onscroll=set_scroll;
+  function set_scroll() {
+    if (typeof(self.pageYOffset)=='number') {
+      sdown=self.pageYOffset;
+      sleft=self.pageXOffset;
+    }
+    else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+      sdown=document.body.scrollTop;
+      sleft=document.body.scrollLeft;
+    }
+    else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+      sleft=document.documentElement.scrollLeft;
+      sdown=document.documentElement.scrollTop;
+    }
+    else {
+      sdown=0;
+      sleft=0;
+    }
+  }
+
+  window.onresize=set_width;
+  function set_width() {
+    var sw_min=999999;
+    var sh_min=999999;
+    if (document.documentElement && document.documentElement.clientWidth) {
+      if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+      if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+    }
+    if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+      if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+      if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+    }
+    if (document.body.clientWidth) {
+      if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+      if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+    }
+    if (sw_min==999999 || sh_min==999999) {
+      sw_min=800;
+      sh_min=600;
+    }
+    swide=sw_min;
+    shigh=sh_min;
+  }
+
+  function createDiv(height, width) {
+    var div=document.createElement("div");
+    div.style.position="absolute";
+    div.style.height=height+"px";
+    div.style.width=width+"px";
+    div.style.overflow="hidden";
+    return (div);
+  }
+
+  function newColour() {
+    var c=new Array();
+    c[0]=255;
+    c[1]=Math.floor(Math.random()*256);
+    c[2]=Math.floor(Math.random()*(256-c[1]/2));
+    c.sort(function(){return (0.5 - Math.random());});
+    return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+  }
+  // ]]>
+</script>
+  <style>
+    @font-face {
+      font-family: "NyghtSerif";
+      src: url("fonts/NyghtSerif-Regular.woff2") format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "OrkneyRegular";
+      src: url("fonts/Orkney Regular.woff2") format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    h1 {
+      text-align: center;
+      font-family: "Courier New", Courier, monospace;
+    }
+    h4 {
+      text-align: center;
+      font-family: "NyghtSerif"; 
+    }
+    footer {
+      text-align:center;
+      bottom: 20px;
+      margin-bottom: 0;
+      position: relative;
+      margin-top: 150px;
+      
+    }
+    page-container {
+  position: relative;
+  min-height: 100%;
+
+}
+    .ascii-art {
+      white-space: pre;
+      max-width: 100vw; /* Set a maximum width relative to the viewport width */
+      word-wrap: break-word;
+      overflow: hidden;
+      margin: 0 auto;  /* Center the ASCII art */
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.6vw;
+    }
+    .about p{
+      font-family: "OrkneyRegular";
+      font-size: 1em;
+      width: 80%;
+      text-align: center;
+      margin-left: 10%;
+      margin-bottom: 20px;
+    }
+    a.link:hover {background:#7bbfff}
+  </style>
+  <!-- Link to external stylesheet -->
+  <link href="style.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+  <div id="page-contatiner">
+  <div>
+    <h1 class='ascii-art'>
+      <pre>
+
+          _______  _        _        _______ 
+|\     /|(  ____ \( \      ( \      (  ___  )
+| )   ( || (    \/| (      | (      | (   ) |
+| (___) || (__    | |      | |      | |   | |
+|  ___  ||  __)   | |      | |      | |   | |
+| (   ) || (      | |      | |      | |   | |
+| )   ( || (____/\| (____/\| (____/\| (___) |
+|/     \|(_______/(_______/(_______/(_______)
+
+
+
+_________ _  _______    _______  _______             ______            _______  _             _______  _______             _______  _______ _________ _______          
+\__   __/( )(       )  (  ____ \(  ___  )|\     /|  (  ___ \ |\     /|(  ____ )( (    /|     (  ___  )(  ____ )  |\     /|(  ___  )(       )\__   __/(  ____ \|\     /|
+   ) (   |/ | () () |  | (    \/| (   ) |( \   / )  | (   ) )| )   ( || (    )||  \  ( |     | (   ) || (    )|  | )   ( || (   ) || () () |   ) (   | (    \/| )   ( |
+   | |      | || || |  | |      | |   | | \ (_) /   | (__/ / | |   | || (____)||   \ | |     | |   | || (____)|  | (___) || (___) || || || |   | |   | (_____ | (___) |
+   | |      | |(_)| |  | |      | |   | |  \   /    |  __ (  | |   | ||     __)| (\ \) |     | |   | ||     __)  |  ___  ||  ___  || |(_)| |   | |   (_____  )|  ___  |
+   | |      | |   | |  | |      | |   | |   ) (     | (  \ \ | |   | || (\ (   | | \   |     | |   | || (\ (     | (   ) || (   ) || |   | |   | |         ) || (   ) |
+___) (___   | )   ( |  | (____/\| (___) |   | |     | )___) )| (___) || ) \ \__| )  \  | _   | (___) || ) \ \__  | )   ( || )   ( || )   ( |___) (___/\____) || )   ( |
+\_______/   |/     \|  (_______/(_______)   \_/     |/ \___/ (_______)|/   \__/|/    )_)( )  (_______)|/   \__/  |/     \||/     \||/     \|\_______/\_______)|/     \|
+                                                                                        |/                                                                             
+
+
+
+          _______  _        _______  _______  _______  _______   _________ _______    _______                      _______  ______   _______ __________________ _______ 
+|\     /|(  ____ \( \      (  ____ \(  ___  )(       )(  ____ \  \__   __/(  ___  )  (       )|\     /|  |\     /|(  ____ \(  ___ \ (  ____ \\__   __/\__   __/(  ____ \
+| )   ( || (    \/| (      | (    \/| (   ) || () () || (    \/     ) (   | (   ) |  | () () |( \   / )  | )   ( || (    \/| (   ) )| (    \/   ) (      ) (   | (    \/
+| | _ | || (__    | |      | |      | |   | || || || || (__         | |   | |   | |  | || || | \ (_) /   | | _ | || (__    | (__/ / | (_____    | |      | |   | (__    
+| |( )| ||  __)   | |      | |      | |   | || |(_)| ||  __)        | |   | |   | |  | |(_)| |  \   /    | |( )| ||  __)   |  __ (  (_____  )   | |      | |   |  __)   
+| || || || (      | |      | |      | |   | || |   | || (           | |   | |   | |  | |   | |   ) (     | || || || (      | (  \ \       ) |   | |      | |   | (      
+| () () || (____/\| (____/\| (____/\| (___) || )   ( || (____/\     | |   | (___) |  | )   ( |   | |     | () () || (____/\| )___) )/\____) |___) (___   | |   | (____/\
+(_______)(_______/(_______/(_______/(_______)|/     \|(_______/     )_(   (_______)  |/     \|   \_/     (_______)(_______/|/ \___/ \_______)\_______/   )_(   (_______/
+
+
+
+</pre></h1>
+    </div>
+<br>
+  <div class="about";>
+    <p>I'm a person, based in Glasgow. I'm
+      interested in lighting design for nightclubs, as well as a
+      variety of other club-based arts and music. I also like technology.
+      Sometimes I'm known as HamsteronA.</p>⊹˚₊‧───────────────‧₊˚⊹
+    <p>I like to share a lot of things on <a class='link' href="https://www.are.na/hamish-leeson">are.na</a>, it's probably my favourite place on the web rn.<br>
+      </p>
+      Currently using <a class="link" href="https://special.fish/coyburn">special fish </a> to do some blogging/writing.</p>
+      <a class='link' href="https://www.instagram.com/hammmmmmmml/">Instagram</a> is where you can follow more live/personal updates from my life.</p>
+      I quite rarely use <a class='link' href="https://twitter.com/HamsteronA">Twitter</a> to tweet but do doomscroll on it a lot</p>
+      Also check out my <a class='link' href="https://subcity.org/show/32">Subcity Radio Show</a> & <a class='link' href="https://buenavida.co.uk/coy-hirn/">Radio
+        Buena Vida Show</a> pages :)</p>
+      <img src="images/totorooo.gif" alt="the little guys from totoro waving 2 leaves in the air"></p>
+    <p>If you want to get in touch, you can <a class='link' href="mailto:hamish.leeson@gmail.com">email me</a>.</p>
+    <p style="font-family: NyghtRegular"><em>-Coy Burn </em></p>
+  </div>
+  
+  <footer>
+  <h4 style="font-family: NyghtRegular"><a href="https://bitrot.online/webring?from=coyburn&go=prev">&larr; prev</a> <a href="https://bitrot.online/webring">        Proud to be part of the bitrot webring - please check out the other sites        </a> <a href="https://bitrot.online/webring?from=coyburn&go=next">      next &rarr;</a></h4>
+  </div>
+</footer>
+</body>
+</html>
