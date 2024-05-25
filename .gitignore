@@ -25,3 +25,4 @@ ignore-me/
 *.mp*
 *.ogg
 *.wav
+.DS_Store
