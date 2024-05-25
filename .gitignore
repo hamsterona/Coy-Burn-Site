@@ -26,3 +26,4 @@ ignore-me/
 *.ogg
 *.wav
 .DS_Store
+.vscode
