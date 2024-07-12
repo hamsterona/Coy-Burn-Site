@@ -8,6 +8,7 @@ passwords.txt
 
 # ignores all folders called "ignore-me" and all files they contain
 ignore-me/
+design documents/
 
 # / prefix also works for folders. this only checks the site folder
 /ignore-me/
@@ -27,3 +28,4 @@ ignore-me/
 *.wav
 *.DS_Store
 *.vscode
+*.afpub
