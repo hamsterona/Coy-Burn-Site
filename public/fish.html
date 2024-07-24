@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COY BURN</title>
+  <script type="text/javascript">
+<!-- SPARKLES CODE -->// <![CDATA[
+  var colour="random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+  var sparkles=80;
+
+  /****************************
+  *  Tinkerbell Magic Sparkle *
+  *(c)2005-13 mf2fm web-design*
+  *  http://www.mf2fm.com/rv  *
+  * DON'T EDIT BELOW THIS BOX *
+  ****************************/
+  var x=ox=400;
+  var y=oy=300;
+  var swide=800;
+  var shigh=600;
+  var sleft=sdown=0;
+  var tiny=new Array();
+  var star=new Array();
+  var starv=new Array();
+  var starx=new Array();
+  var stary=new Array();
+  var tinyx=new Array();
+  var tinyy=new Array();
+  var tinyv=new Array();
+
+  window.onload=function() { if (document.getElementById) {
+    var i, rats, rlef, rdow;
+    for (var i=0; i<sparkles; i++) {
+      var rats=createDiv(3, 3);
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      document.body.appendChild(tiny[i]=rats);
+      starv[i]=0;
+      tinyv[i]=0;
+      var rats=createDiv(5, 5);
+      rats.style.backgroundColor="transparent";
+      rats.style.visibility="hidden";
+      rats.style.zIndex="999";
+      var rlef=createDiv(1, 5);
+      var rdow=createDiv(5, 1);
+      rats.appendChild(rlef);
+      rats.appendChild(rdow);
+      rlef.style.top="2px";
+      rlef.style.left="0px";
+      rdow.style.top="0px";
+      rdow.style.left="2px";
+      document.body.appendChild(star[i]=rats);
+    }
+    set_width();
+    sparkle();
+  }}
+
+  function sparkle() {
+    var c;
+    if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+      ox=x;
+      oy=y;
+      for (c=0; c<sparkles; c++) if (!starv[c]) {
+        star[c].style.left=(starx[c]=x)+"px";
+        star[c].style.top=(stary[c]=y+1)+"px";
+        star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+        star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+        star[c].style.visibility="visible";
+        starv[c]=50;
+        break;
+      }
+    }
+    for (c=0; c<sparkles; c++) {
+      if (starv[c]) update_star(c);
+      if (tinyv[c]) update_tiny(c);
+    }
+    setTimeout("sparkle()", 40);
+  }
+
+  function update_star(i) {
+    if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+    if (starv[i]) {
+      stary[i]+=1+Math.random()*3;
+      starx[i]+=(i%5-2)/5;
+      if (stary[i]<shigh+sdown) {
+        star[i].style.top=stary[i]+"px";
+        star[i].style.left=starx[i]+"px";
+      }
+      else {
+        star[i].style.visibility="hidden";
+        starv[i]=0;
+        return;
+      }
+    }
+    else {
+      tinyv[i]=50;
+      tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+      tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+      tiny[i].style.width="2px";
+      tiny[i].style.height="2px";
+      tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+      star[i].style.visibility="hidden";
+      tiny[i].style.visibility="visible"
+    }
+  }
+
+  function update_tiny(i) {
+    if (--tinyv[i]==25) {
+      tiny[i].style.width="1px";
+      tiny[i].style.height="1px";
+    }
+    if (tinyv[i]) {
+      tinyy[i]+=1+Math.random()*3;
+      tinyx[i]+=(i%5-2)/5;
+      if (tinyy[i]<shigh+sdown) {
+        tiny[i].style.top=tinyy[i]+"px";
+        tiny[i].style.left=tinyx[i]+"px";
+      }
+      else {
+        tiny[i].style.visibility="hidden";
+        tinyv[i]=0;
+        return;
+      }
+    }
+    else tiny[i].style.visibility="hidden";
+  }
+
+  document.onmousemove=mouse;
+  function mouse(e) {
+    if (e) {
+      y=e.pageY;
+      x=e.pageX;
+    }
+    else {
+      set_scroll();
+      y=event.y+sdown;
+      x=event.x+sleft;
+    }
+  }
+
+  window.onscroll=set_scroll;
+  function set_scroll() {
+    if (typeof(self.pageYOffset)=='number') {
+      sdown=self.pageYOffset;
+      sleft=self.pageXOffset;
+    }
+    else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+      sdown=document.body.scrollTop;
+      sleft=document.body.scrollLeft;
+    }
+    else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+      sleft=document.documentElement.scrollLeft;
+      sdown=document.documentElement.scrollTop;
+    }
+    else {
+      sdown=0;
+      sleft=0;
+    }
+  }
+
+  window.onresize=set_width;
+  function set_width() {
+    var sw_min=999999;
+    var sh_min=999999;
+    if (document.documentElement && document.documentElement.clientWidth) {
+      if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+      if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+    }
+    if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+      if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+      if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+    }
+    if (document.body.clientWidth) {
+      if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+      if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+    }
+    if (sw_min==999999 || sh_min==999999) {
+      sw_min=800;
+      sh_min=600;
+    }
+    swide=sw_min;
+    shigh=sh_min;
+  }
+
+  function createDiv(height, width) {
+    var div=document.createElement("div");
+    div.style.position="absolute";
+    div.style.height=height+"px";
+    div.style.width=width+"px";
+    div.style.overflow="hidden";
+    return (div);
+  }
+
+  function newColour() {
+    var c=new Array();
+    c[0]=255;
+    c[1]=Math.floor(Math.random()*256);
+    c[2]=Math.floor(Math.random()*(256-c[1]/2));
+    c.sort(function(){return (0.5 - Math.random());});
+    return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+  }
+  // ]]>
+</script>
+  <style>
+    @font-face {
+      font-family: "NyghtSerif";
+      src: url("fonts/NyghtSerif-Regular.woff2") format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "OrkneyRegular";
+      src: url("fonts/Orkney Regular.woff2") format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    h1 {
+      text-align: center;
+      font-family: "Courier New", Courier, monospace;
+    }
+    h4 {
+      text-align: center;
+      font-family: "NyghtSerif"; 
+    }
+    footer {
+      text-align:center;
+      bottom: 20px;
+      margin-bottom: 0;
+      position: relative;
+      margin-top: 150px;
+      
+    }
+    page-container {
+  position: relative;
+  min-height: 100%;
+
+}
+    .ascii-art {
+      white-space: pre;
+      max-width: 100vw; /* Set a maximum width relative to the viewport width */
+      word-wrap: break-word;
+      overflow: hidden;
+      margin: 0 auto;  /* Center the ASCII art */
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.6vw;
+    }
+    .about p{
+      font-family: "OrkneyRegular";
+      font-size: .8em;
+      width: 80%;
+      text-align: center;
+      margin-left: 10%;
+      margin-bottom: 20px;
+    }
+    a.link:hover {background:#7bbfff}
+  </style>
+  <!-- Link to external stylesheet -->
+  <link href="style.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <h1>This is a dump of my <a href="special.fish/coyburn">special.fish</a> word processing. periodically updated as i run out of space there. formatting isn't perfect yet but it's readable.<br>
+        <a href="index.html">click me to go home.</a></h1>
+        <p> <pre style="white-space: pre-wrap;">190724 i am on holiday in canada now. thank goodness i travelled yesterday rather than today with the major IT outages! feels good to be here the weather is stunning and vancouver is a beautiful place. i like that upon landing the first thing we did was go to our friends-&gt;partners-&gt;friends rec league football (soccer 🥴) game in a small park. it feels like we are participants in the city rather than tourists or visitors. the city just feels so much more forward than glasgow which seems to drag its heels on any form of progress. but i cant belie that my annual leave allowance of 45 days is exceptional and i would find it hard to drop that - a friend in calgary has a 'good' holiday package and she has 15 days.
+
+            140724 i went to a cocktail bar in my neighbourhood today thats closing down tomorrow. the staff got given 2 weeks notice from the owners and they're gone. tomorrow is their last day. i went once before and thought it was really great - real speakeasy vibe and the cocktails were wow they were something else. definitely some of the most experimental drinks ive had but so creative and courageous i think i was impressed. i think its obvious they are having to close because they aren't making any money but theyve only been open 12 months or less. it was such an amazing thing to have to close by but i only went once and you know use it or lose it. anyway they are so rammed this weekend its near impossible to get a seat. 
+            im also thinking about this bar close by, that used to be something else. it used to be a real classic boozer and its been bought over (by someone decent tbh) but its changed. and before we went cuz it was advertising free pool on wednesdays so we were like aye we'll do that we fancy a game of pool. so we went in and asked about it and they said oh aye sure and gave us 50p out the till to put in the pool table. and as we're playing we realise the bar is ~busy but no one is talking and the tele is very loud. and actually everyone is watching the tele intently and its coronation street (and the story is very dramatic as it is) and our pool playing is cracking out over the programme they're all watching and now we feel very awkward. do they come here every day to watch coronations street together? probably. and now its bought out and its hip and its cool and someone tried to sell stolen meat when we were in recently and got kicked out and its moved onto something else. once coronation street ended they muted the tele. now all the lights are very red and the tables have candles on them with lots of melted wax all over the base and they have a leather bound menu. there are no tvs. toilets are still boggin tho. im really glad i got to experience that before they changed it. it feels like a part of history that you just dip in on.
+            
+            060724 i am progressing my long list of things. the list is constant. sometimes it gets lost or i give up but it always reappears, maybe in another form. items can also appear on more than one list (they are daunting or long). some items will never be completed. 
+            god sophie made the most otherwordly music.
+            
+            050724 longggg 12 hour shift today. feeling burst and like not doing anything. novel feeling in work continuing a bit. NPC mode for me today i think. also made to commitment to start elden ring on pc last night having failed at playing it on ps4 a few years ago cuz i was shite. its still hard and im still shite. i quite enjoy drinking beer or whiskey when playing but im so focussed on maxing my physical state to be better at the game maybe i need to drop it while playing. having this thoughts while not even able to beat the first miniboss encountered.
+            
+            040724 playing watch dogs 2 on the recommendation of a friend. normally quite cynical about a lot of game but finding this one quite joyful. 
+            election is awful tbh busy but novel at least at work and seeing how its all going suck not feeling good about any part of it really. at least the tories will be out. having to miss going away with my friends this weekend too due to work. 
+            sometimes it can feel like your friends dont believe in you but every time i have found that its just me being silly and they clearly show you how much you mean to them in others ways you didnt expect. this happened to me recently but i think its important to remember. very friend themed this one. i love all my friends they are great 💕
+            
+            220624 long time no write. ordered the second pair of sunnies and so glad I did. I truly believe in China. am football obsessed to the point the ball and players moving around the green field has begun to lose all meaning. I have just spent the 3 work shifts making a john mcginn fancam - partly to reacquaint myself with da vinci resolve but also partly because i have severe degenerative brain rot. but im very proud of it :)
+            already missing someone on here who used to post a lot. think about them a lot.
+            feels like real life has whipped back around and ive lost a lot of connection to these online spaces that I was building. i'll let it slip for summer and see what winter brings. 
+            charli xcx is truly the sound of the summer.
+            
+            310524 long week. in the part of my rota where i work an ungodly amount of hours (8*10 hour shifts in 9 days) to get a whole week off after for free. Sometimes its ok, most of the time its a bit hard tbh and really feeling it now. had a gig last night as well. trying to have an early night to prepare for work tomorrow but typing here instead :D the gig last night was amazing tho really made me feel fulfilled in a way i wasnt expecting - i hope i can work in that venue again we have a lot of history.
+            I ordered sunglasses and might even order a second pair. excited for them to come. my fake scotland euros top came and is pretty good. 
+            Really love reading the insights into peoples lives here. feels very intimate and personal, and like you have a connection with an anonymous stranger. and also interesting to see what people do with their lives, and fundamentally how they feel about it.  
+            
+            230524 I want to buy a pair of sunglasses. I have a few but I don't like them or don't trust the UV filter. Having looked at some, I am now constantly bombarded with ads for sunglasses in the 'y2k' style (I do like some of them), with prices varying from £30-100ish. A lot of them look the same. A lot of them are clones of more designer styles.
+            I have found that if you reverse image search them, within a few clicks you can find the exact design for much cheaper on aliexpress, along with a notice in the description to contact them with the details of your dropshipping scheme, if you are so inclined. 
+            I like being team flower on this site. It looks a bit like a gear.
+            
+            190524 (actual day) very inspired by a lot of writing on this site. I want to make my writing better so that it makes people feel things when they read it rather than it just be information about my life. But also really do not want to be cringe. I am not a 'writer' I am a 'technician' even an 'engineer' at a push. Could indulge that and write a bit about my ongoing atomic repair. 
+            Back in the park again lol feels amazing I love that sun. 
+            
+            190524 (0227) buzzing. Went to a great club night estoc is sick. Spent 2 days sunmaxxing in the park and drinking tins. Saw so many friends and don't really have the fear about it. Made some headphones more comfortable and I'm really enjoying using them more. 360 by charli xcx is a mega banger. Feeling alive. 
+            
+            170524 think i am getting addicted to the euphoric rush u get after blastingg ur brain with cold water when u come out the sauna. is it endorphins or dopamine u get? endorphins I think. anyway I spend all week thinking about it and its the highlight of my day. 
+            feeling very pleased i solved a tricky fault at work yesterday, with a dodgy tieline between audio matrices. And handled a complete loss of service of one our of radio stations well the night before :) now to party big time this weekend!
+            I have a gig coming up in a few weeks that im hoping will be super interesting, got a meeting on monday. building some of sort of cubic tetris like structure and strapping some led bars onto it im hoping to control properly. 
+            
+            110524 hey @sneek thank u for the warm welcome 😌 i was surfing the internet one day and found this site and then saw u on it! and felt so inspired i wanted to join the community. im glad you're enjoying your mp3 player :)
+            first big weekend of the summer moment lots of park cans yesterday (my favourite thing even tho its ~illegal in glasgow) and more on the way today. Costa del Glasgow is real. also I got my git working for the neocities site feeling very proud about it. really enjoying going web 1.0 mode - maybe its 2.0? im kinda feeling web 1.5 lol. hope everyone reading this can enjoy a special sunny moment. 
+            
+            090524 i think its gonna be a sunny weekend and im looking forward to it. struggling to get my GitHub repo to copy over to neocities. listened to an old radio show there was a serious banger version of its all coming back to me by celine dion.
+            
+            060524 made some progress on getting neocities site to work with git. have never used git before but it's going ok :)
+            
+            050524 trying out tidal on a 2 month trial - haven't had spotify for quite a few years so interested to see how it goes. honestly initial impressions are not that great, i don't like the software ui all that much at all, and the lack of a remote feature is a big miss.
+            </p>
+</body>
